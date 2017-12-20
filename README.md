@@ -21,3 +21,16 @@ A picture is worth a thousand words, eg. see [google image search:
 https://www.google.co.uk/search?q=collection+of+stuff&source=lnms
 &tbm=isch&sa=X&ved=0ahUKEwiTs93q15jYAhVKBMAKHUaaDj0Q_AUICigB&biw=1230&bih=1038)
 
+# Listing of contents
+
+## huh.java
+
+        ✗ javac huh.java 
+        ✗ java huh 
+        My enum is: EN_HAH_ALL_GOOD
+        Exception in thread "main" java.lang.ArithmeticException: / by zero
+            at huh.main(huh.java:9)
+        ➜  pictureboardwall.java git:(master) ✗ echo $?
+        1
+
+
