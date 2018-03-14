@@ -1,5 +1,5 @@
 
-=== Compile
+### Compile
 
 My env seems to be broken / incomplete. I have to specifiy the source file encoding:
 
@@ -11,11 +11,11 @@ or
 
 Without those, `javac` prints some message like:
 
-✗ javac ReadFile.java 
+        ✗ javac ReadFile.java 
         ReadFile.java:27: error: unmappable character for encoding ASCII
                 ??? java ReadFile blah
                 ^
-=== Example runs:
+### Example runs:
 
         ✗ java ReadFile                         
         Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 0
