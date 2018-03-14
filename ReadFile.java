@@ -1,38 +1,27 @@
 import java.io.BufferedReader;
+import java.io.FileDescriptor;
 import java.io.FileReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public final class ReadFile {
-    public static void main(String...args) throws IOException {
-        new BufferedReader(new FileReader(args[0])).readLine();
+    public static void main(String...args)
+    throws IOException, URISyntaxException {
+        Reader reader = null;
+        if ("-".equals(args[0])) {
+            reader = new InputStreamReader(System.in);
+        } else {
+            reader = new FileReader(new File(new URI(args[0])));
+        }
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        String line = bufferedReader.readLine();
+        while (line != null) {
+            System.out.println(line);
+            line = bufferedReader.readLine();
+        }
     }
 }
-
-/* some test runs:
-
-        ✗ java ReadFile blah
-        Exception in thread "main" java.io.FileNotFoundException: blah (No such file or directory)
-            at java.io.FileInputStream.open0(Native Method)
-            at java.io.FileInputStream.open(FileInputStream.java:195)
-            at java.io.FileInputStream.<init>(FileInputStream.java:138)
-            at java.io.FileInputStream.<init>(FileInputStream.java:93)
-            at java.io.FileReader.<init>(FileReader.java:58)
-            at ReadFile.main(ReadFile.java:7)
-        ✗ java ReadFile /var/tmp/test.txt
-        ✗ java ReadFile file:///var/tmp/test.txt
-        Exception in thread "main" java.io.FileNotFoundException: file:/var/tmp/test.txt (No such file or directory)
-            at java.io.FileInputStream.open0(Native Method)
-            at java.io.FileInputStream.open(FileInputStream.java:195)
-            at java.io.FileInputStream.<init>(FileInputStream.java:138)
-            at java.io.FileInputStream.<init>(FileInputStream.java:93)
-            at java.io.FileReader.<init>(FileReader.java:58)
-            at ReadFile.main(ReadFile.java:7)
-        ✗ java ReadFile file:/var/tmp/test.txt
-        Exception in thread "main" java.io.FileNotFoundException: file:/var/tmp/test.txt (No such file or directory)
-            at java.io.FileInputStream.open0(Native Method)
-            at java.io.FileInputStream.open(FileInputStream.java:195)
-            at java.io.FileInputStream.<init>(FileInputStream.java:138)
-            at java.io.FileInputStream.<init>(FileInputStream.java:93)
-            at java.io.FileReader.<init>(FileReader.java:58)
-            at ReadFile.main(ReadFile.java:7)
-*/
