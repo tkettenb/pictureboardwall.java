@@ -1,0 +1,66 @@
+### Show internal representation of java strings
+
+(at runtime, java is using osme UTF-16, but the class file also just seem
+to use utf8 -- or the encoding used in the source java file ...)
+
+#### Hexdump of source:
+
+✗ hexdump -C FileEncodingUTF8.java 
+00000000  70 75 62 6c 69 63 20 66  69 6e 61 6c 20 63 6c 61  |public final cla|
+00000010  73 73 20 46 69 6c 65 45  6e 63 6f 64 69 6e 67 55  |ss FileEncodingU|
+00000020  54 46 38 20 7b 0a 20 20  20 20 70 72 69 76 61 74  |TF8 {.    privat|
+00000030  65 20 73 74 61 74 69 63  20 66 69 6e 61 6c 20 53  |e static final S|
+00000040  74 72 69 6e 67 20 73 6f  6d 65 55 54 46 38 20 3d  |tring someUTF8 =|
+00000050  20 22 63 72 6f 73 73 3a  20 28 e2 9c 97 29 22 3b  | "cross: (...)";|
+00000060  0a 7d 0a                                          |.}.|
+00000063
+
+#### compile
+
+✗ javac -encoding utf8 FileEncodingUTF8.java
+
+#### ... et, voila:
+
+✗ hexdump -C FileEncodingUTF8.class
+00000000  ca fe ba be 00 00 00 34  00 12 0a 00 03 00 0e 07  |.......4........|
+00000010  00 0f 07 00 10 01 00 08  73 6f 6d 65 55 54 46 38  |........someUTF8|
+00000020  01 00 12 4c 6a 61 76 61  2f 6c 61 6e 67 2f 53 74  |...Ljava/lang/St|
+00000030  72 69 6e 67 3b 01 00 0d  43 6f 6e 73 74 61 6e 74  |ring;...Constant|
+00000040  56 61 6c 75 65 08 00 11  01 00 06 3c 69 6e 69 74  |Value......<init|
+00000050  3e 01 00 03 28 29 56 01  00 04 43 6f 64 65 01 00  |>...()V...Code..|
+00000060  0f 4c 69 6e 65 4e 75 6d  62 65 72 54 61 62 6c 65  |.LineNumberTable|
+00000070  01 00 0a 53 6f 75 72 63  65 46 69 6c 65 01 00 15  |...SourceFile...|
+00000080  46 69 6c 65 45 6e 63 6f  64 69 6e 67 55 54 46 38  |FileEncodingUTF8|
+00000090  2e 6a 61 76 61 0c 00 08  00 09 01 00 10 46 69 6c  |.java........Fil|
+000000a0  65 45 6e 63 6f 64 69 6e  67 55 54 46 38 01 00 10  |eEncodingUTF8...|
+000000b0  6a 61 76 61 2f 6c 61 6e  67 2f 4f 62 6a 65 63 74  |java/lang/Object|
+000000c0  01 00 0c 63 72 6f 73 73  3a 20 28 e2 9c 97 29 00  |...cross: (...).|
+000000d0  31 00 02 00 03 00 00 00  01 00 1a 00 04 00 05 00  |1...............|
+000000e0  01 00 06 00 00 00 02 00  07 00 01 00 01 00 08 00  |................|
+000000f0  09 00 01 00 0a 00 00 00  1d 00 01 00 01 00 00 00  |................|
+00000100  05 2a b7 00 01 b1 00 00  00 01 00 0b 00 00 00 06  |.*..............|
+00000110  00 01 00 00 00 01 00 01  00 0c 00 00 00 02 00 0d  |................|
+00000120
+
+
+
+TODO: probably see:
+
+  https://www.google.co.uk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&cad=rja&uact=8&ved=0ahUKEwjF-_H06ovaAhWF0RQKHfFiCLYQFghGMAI&url=https%3A%2F%2Fcodereview.stackexchange.com%2Fquestions%2F42649%2Fcustomised-java-utf-16&usg=AOvVaw0WxLebGSyExaYnV9V4IM2e
+
+  https://www.google.co.uk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0ahUKEwjF-_H06ovaAhWF0RQKHfFiCLYQFgg3MAE&url=https%3A%2F%2Fsoftwareengineering.stackexchange.com%2Fquestions%2F174947%2Fwhy-does-java-use-utf-16-for-internal-string-representation&usg=AOvVaw2pl_hMIUB6e2ReB-JbfBb7
+
+  https://www.google.co.uk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=4&cad=rja&uact=8&ved=0ahUKEwjF-_H06ovaAhWF0RQKHfFiCLYQFghSMAM&url=https%3A%2F%2Fsoftwareengineering.stackexchange.com%2Fquestions%2F102205%2Fshould-utf-16-be-considered-harmful&usg=AOvVaw3ZPIkceZSAwoJhRQxH-hCx
+
+  https://www.google.co.uk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=5&cad=rja&uact=8&ved=0ahUKEwjF-_H06ovaAhWF0RQKHfFiCLYQFghgMAQ&url=http%3A%2F%2Fstn.audible.com%2Fabcs-of-unicode%2F&usg=AOvVaw1Fwk5XKyJSsugqtbrl71cF
+
+  https://www.google.co.uk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=6&cad=rja&uact=8&ved=0ahUKEwjF-_H06ovaAhWF0RQKHfFiCLYQFghtMAU&url=https%3A%2F%2Fwww.w3.org%2FPeople%2Fdanield%2Funic%2Funitra.htm&usg=AOvVaw1UO33CXAN-r34hsGAPhqn9
+
+  https://www.google.co.uk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=7&cad=rja&uact=8&ved=0ahUKEwjF-_H06ovaAhWF0RQKHfFiCLYQFgh6MAY&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FComparison_of_Unicode_encodings&usg=AOvVaw2PM5K6Bd5VKqvBDa_L96-C
+
+  https://www.google.co.uk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=9&cad=rja&uact=8&ved=0ahUKEwjF-_H06ovaAhWF0RQKHfFiCLYQFgiWATAI&url=http%3A%2F%2Futf8everywhere.org%2F&usg=AOvVaw0STMQFptixg4DiXoQ7Q7lx
+
+  https://www.google.co.uk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=10&cad=rja&uact=8&ved=0ahUKEwjF-_H06ovaAhWF0RQKHfFiCLYQFgilATAJ&url=https%3A%2F%2Fcodeahoy.com%2F2016%2F05%2F08%2Fthe-char-type-in-java-is-broken%2F&usg=AOvVaw3sZ-57SwSvCkv2FBIPZHqX
+    ^^^ (maybe good read? -- the char type in java is broken ...)
+
+
