@@ -29,13 +29,11 @@ public final class HowManyDigits {
     public static void main(String...args) {
         for (String arg: args) {
             try {
-					System.out.println("".format(
-											"Argument: '%s'  has  %d digits.",
-											arg,
-											getDigitsSet(Double.valueOf(arg))));
-			} catch (NumberFormatException e) {
-					e.printStackTrace();
-			}
+                System.out.println("".format(
+                    "Argument: '%s'  has  %d digits.", arg, getDigitsSet(Double.valueOf(arg))));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
