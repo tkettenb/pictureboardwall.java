@@ -1,8 +1,8 @@
 ### Hibernate validation exception
 
-Do'oh -- one of our applications failed with an `IndexOutOfBoundsExcetpion`
+One of our applications failed with an `ArrayIndexOutOfBoundsExcetpion`
 
-	✗ java -jar target/consistency-checker-1.10.0-SNAPSHOT.jar --orderid 123412312312 test-config.yml
+	✗ java -jar app-0.0.0-SNAPSHOT.jar --orderid 123412312312 test-config.yml
 	[2018-11-23 15:26:02] [INFO ] [Version:17] - HV000001: Hibernate Validator 5.2.2.Final
 	Exception in thread "main" javax.validation.ValidationException: Unable to instantiate Configuration.
 			at javax.validation.Validation$GenericBootstrapImpl.configure(Validation.java:279)
